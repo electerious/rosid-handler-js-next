@@ -1,4 +1,4 @@
-# rosid-handler-js
+# rosid-handler-js-next
 
 [![Travis Build Status](https://travis-ci.org/electerious/rosid-handler-js-next.svg?branch=master)](https://travis-ci.org/electerious/rosid-handler-js-next) [![Coverage Status](https://coveralls.io/repos/github/electerious/rosid-handler-js-next/badge.svg?branch=master)](https://coveralls.io/github/electerious/rosid-handler-js-next?branch=master) [![Dependencies](https://david-dm.org/electerious/rosid-handler-js-next.svg)](https://david-dm.org/electerious/rosid-handler-js-next#info=dependencies)
 
