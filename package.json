@@ -1,0 +1,67 @@
+{
+  "name": "rosid-handler-js-next",
+  "version": "1.0.0",
+  "authors": [
+    "Tobias Reich <tobias@electerious.com>"
+  ],
+  "description": "Load, transform, bundle and compress modern JS",
+  "main": "src/index.js",
+  "keywords": [
+    "rosid",
+    "handler",
+    "transform",
+    "compile",
+    "js",
+    "babel",
+    "rollup",
+    "terser"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/electerious/rosid-handler-js-next",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/electerious/rosid-handler-js-next.git"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "test": "nyc node_modules/mocha/bin/_mocha",
+    "lint": "eslint '{src,test}/**/*.js'"
+  },
+  "dependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
+    "@rollup/plugin-babel": "^5.2.2",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^11.0.1",
+    "@rollup/plugin-replace": "^2.3.4",
+    "rollup": "^2.35.1",
+    "rollup-plugin-node-globals": "^1.4.0",
+    "rollup-plugin-terser": "^7.0.2"
+  },
+  "devDependencies": {
+    "@electerious/eslint-config": "^1.3.4",
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.9",
+    "eslint": "^7.16.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-react-native": "^3.10.0",
+    "fsify": "^4.0.1",
+    "mocha": "^8.2.0",
+    "nyc": "^15.0.0",
+    "uuid": "^8.3.2"
+  },
+  "mocha": {
+    "timeout": "100000"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": "@electerious/eslint-config"
+  }
+}
