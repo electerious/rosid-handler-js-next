@@ -1,13 +1,13 @@
 # rosid-handler-js
 
-[![Travis Build Status](https://travis-ci.org/electerious/rosid-handler-js.svg?branch=master)](https://travis-ci.org/electerious/rosid-handler-js) [![Coverage Status](https://coveralls.io/repos/github/electerious/rosid-handler-js/badge.svg?branch=master)](https://coveralls.io/github/electerious/rosid-handler-js?branch=master) [![Dependencies](https://david-dm.org/electerious/rosid-handler-js.svg)](https://david-dm.org/electerious/rosid-handler-js#info=dependencies) [![Greenkeeper badge](https://badges.greenkeeper.io/electerious/rosid-handler-js.svg)](https://greenkeeper.io/)
+[![Travis Build Status](https://travis-ci.org/electerious/rosid-handler-js-next.svg?branch=master)](https://travis-ci.org/electerious/rosid-handler-js-next) [![Coverage Status](https://coveralls.io/repos/github/electerious/rosid-handler-js-next/badge.svg?branch=master)](https://coveralls.io/github/electerious/rosid-handler-js-next?branch=master) [![Dependencies](https://david-dm.org/electerious/rosid-handler-js-next.svg)](https://david-dm.org/electerious/rosid-handler-js-next#info=dependencies)
 
 A function that loads a JS file and transforms, bundles and compresses its content.
 
 ## Install
 
 ```
-npm install rosid-handler-js
+npm install rosid-handler-js-next
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ npm install rosid-handler-js
 ### API
 
 ```js
-const handler = require('rosid-handler-js')
+const handler = require('rosid-handler-js-next')
 
 handler('main.js').then((data) => {})
 handler('main.js', { optimize: true }).then((data) => {})
@@ -23,13 +23,13 @@ handler('main.js', { optimize: true }).then((data) => {})
 
 ### Rosid
 
-Add the following object to your `rosidfile.json`, `rosidfile.js` or [routes array](https://github.com/electerious/Rosid/blob/master/docs/Routes.md). `rosid-handler-js` will transform, bundles and compresses all matching JS files in your source folder.
+Add the following object to your `rosidfile.json`, `rosidfile.js` or [routes array](https://github.com/electerious/Rosid/blob/master/docs/Routes.md). `rosid-handler-js-next` will transform, bundles and compresses all matching JS files in your source folder.
 
 ```json
 {
   "name"    : "JS",
   "path"    : "[^_]*.js",
-  "handler" : "rosid-handler-js"
+  "handler" : "rosid-handler-js-next"
 }
 ```
 
@@ -49,9 +49,11 @@ Object.defineProperty(exports,"__esModule",{value:!0}),exports["default"]=functi
 - `filePath` `{String}` Absolute path to file.
 - `opts` `{?Object}` Options.
 	- `optimize` `{?Boolean}` - Optimize output. Defaults to `false`.
-	- `env` `{?Object}` - Environment variables for [loose-envify](https://github.com/zertosh/loose-envify). Defaults to an object with `NODE_ENV` set to `production` when `optimize` is enabled.
-	- `browserify` `{?Object}` - Browserify [options](https://github.com/browserify/browserify). Defaults to an object with `debug` enabled.
-	- `babel` `{?Object}` - Babel [options](https://babeljs.io/docs/usage/api/). Defaults to an object with the presets [env](http://babeljs.io/docs/plugins/preset-env/) and [react](http://babeljs.io/docs/plugins/preset-react/).
+	- `replace` `{?Object}` - Variables for [@rollup/plugin-replace](https://github.com/rollup/plugins/tree/master/packages/replace). Defaults to an object with `process.env.NODE_ENV` set to `production` when `optimize` is enabled.
+	- `babel` `{?Object}` - Variables for [@rollup/plugin-babel](https://github.com/rollup/plugins/tree/master/packages/babel). Defaults to an object with the presets [env](http://babeljs.io/docs/plugins/preset-env/) and [react](http://babeljs.io/docs/plugins/preset-react/).
+	- `nodeGlobals` `{?Boolean}` - Enable to disable [rollup-plugin-node-globals](https://github.com/calvinmetcalf/rollup-plugin-node-globals). Defaults to `false`.
+	- `rollupInput` `{?Object}` - Input variables for rollup.js.
+	- `rollupOutput` `{?Object}` - Output variables for rollup.js.
 
 ## Returns
 
