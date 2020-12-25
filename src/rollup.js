@@ -37,6 +37,7 @@ module.exports = async function(filePath, opts) {
 	const babelOpts = {
 		babelHelpers: 'bundled',
 		presets: [ '@babel/preset-env', '@babel/preset-react' ],
+		compact: false,
 		babelrc: false,
 		...opts.babel
 	}
