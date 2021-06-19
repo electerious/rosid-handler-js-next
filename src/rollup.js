@@ -28,7 +28,7 @@ module.exports = async function(filePath, opts) {
 	}
 
 	const replaceOpts = opts.optimize === true ? {
-		preventAssignment: true,
+		'preventAssignment': true,
 		'process.env.NODE_ENV': JSON.stringify('production'),
 		...opts.replace
 	} : {
