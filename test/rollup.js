@@ -2,7 +2,7 @@
 
 const { test, describe } = require('node:test')
 const assert = require('node:assert/strict')
-const uuid = require('uuid').v4
+const {randomUUID} = require('node:crypto')
 const rollup = require('../src/rollup.js')
 
 const fsify = require('fsify').default({
@@ -23,7 +23,7 @@ describe('rollup()', () => {
 		const structure = await fsify([
 			{
 				type: 'file',
-				name: `${ uuid() }.js`,
+				name: `${randomUUID()}.js`,
 				contents: 'window.fn = () => process.env.NODE_ENV'
 			}
 		])
@@ -39,7 +39,7 @@ describe('rollup()', () => {
 		const structure = await fsify([
 			{
 				type: 'file',
-				name: `${ uuid() }.js`,
+				name: `${randomUUID()}.js`,
 				contents: 'window.fn = () => true'
 			}
 		])
@@ -56,8 +56,8 @@ describe('rollup()', () => {
 		const structure = await fsify([
 			{
 				type: 'file',
-				name: `${ uuid() }.js`,
-				contents: 'const fn = () => true'
+				name: `${randomUUID()}.js`,
+				contents: 'window.fn = () => true'
 			}
 		])
 
@@ -73,7 +73,7 @@ describe('rollup()', () => {
 		const structure = await fsify([
 			{
 				type: 'file',
-				name: `${ uuid() }.js`,
+				name: `${randomUUID()}.js`,
 				contents: 'window.fn = () => process.env.NODE_ENV'
 			}
 		])
@@ -89,7 +89,7 @@ describe('rollup()', () => {
 		const structure = await fsify([
 			{
 				type: 'file',
-				name: `${ uuid() }.js`,
+				name: `${randomUUID()}.js`,
 				contents: 'window.fn = () => process.env.NODE_ENV'
 			}
 		])
@@ -105,12 +105,12 @@ describe('rollup()', () => {
 		const structure = await fsify([
 			{
 				type: 'file',
-				name: `${ uuid() }.js`,
+				name: `${randomUUID()}.js`,
 				contents: 'window.fn = () => process.env.TEST'
 			}
 		])
 
-		const replace = { 'process.env.TEST': JSON.stringify(uuid()) }
+		const replace = { 'process.env.TEST': JSON.stringify(randomUUID()) }
 		const result = await rollup(structure[0].name, { replace })
 
 		assert.ok(result.includes(replace['process.env.TEST']))
@@ -122,7 +122,7 @@ describe('rollup()', () => {
 		const structure = await fsify([
 			{
 				type: 'file',
-				name: `${ uuid() }.js`,
+				name: `${randomUUID()}.js`,
 				contents: '='
 			}
 		])

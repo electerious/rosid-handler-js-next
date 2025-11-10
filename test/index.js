@@ -2,7 +2,7 @@
 
 const { test, describe } = require('node:test')
 const assert = require('node:assert/strict')
-const uuid = require('uuid').v4
+const {randomUUID} = require('node:crypto')
 const index = require('./../src/index.js')
 
 // Files must be in cwd so babel can load the plugins and presents
@@ -26,8 +26,8 @@ describe('index()', () => {
 		const structure = await fsify([
 			{
 				type: 'file',
-				name: `${ uuid() }.js`,
-				contents: 'const fn = () => {}'
+				name: `${randomUUID()}.js`,
+				contents: 'window.fn = () => true'
 			}
 		])
 
@@ -40,7 +40,7 @@ describe('index()', () => {
 
 	test('should return an error when called with a fictive filePath', async () => {
 
-		await assert.rejects(index(`${ uuid() }.js`))
+		await assert.rejects(index(`${randomUUID()}.js`))
 
 	})
 
@@ -49,7 +49,7 @@ describe('index()', () => {
 		const structure = await fsify([
 			{
 				type: 'file',
-				name: `${ uuid() }.js`,
+				name: `${randomUUID()}.js`,
 				contents: '='
 			}
 		])
@@ -63,8 +63,8 @@ describe('index()', () => {
 		const structure = await fsify([
 			{
 				type: 'file',
-				name: `${ uuid() }.js`,
-				contents: 'const fn = () => {}'
+				name: `${randomUUID()}.js`,
+				contents: 'window.fn = () => true'
 			}
 		])
 
@@ -79,8 +79,8 @@ describe('index()', () => {
 		const structure = await fsify([
 			{
 				type: 'file',
-				name: `${ uuid() }.js`,
-				contents: 'const fn = () => {}'
+				name: `${randomUUID()}.js`,
+				contents: 'window.fn = () => true'
 			}
 		])
 

@@ -26,8 +26,7 @@
     "src"
   ],
   "scripts": {
-    "test": "node --test test/*.js",
-    "lint": "eslint '{src,test}/**/*.js'"
+    "test": "node --test"
   },
   "dependencies": {
     "@babel/core": "^7.28.5",
@@ -43,17 +42,6 @@
     "rollup-plugin-node-globals": "^1.4.0"
   },
   "devDependencies": {
-    "@electerious/eslint-config": "^4.1.0",
-    "eslint": "^8.57.1",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-native": "^5.0.0",
-    "fsify": "^6.0.1",
-    "uuid": "^13.0.0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "extends": "@electerious/eslint-config"
+    "fsify": "^6.0.1"
   }
 }
