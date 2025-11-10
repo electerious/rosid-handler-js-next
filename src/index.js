@@ -1,48 +1,49 @@
 'use strict'
 
-const rollup = require('./rollup')
+const rollup = require('./rollup.js')
 
 /**
  * Load, transform, bundle and compress JS.
  * @public
  * @param {String} filePath - Absolute path to file.
- * @param {?Object} opts - Options.
+ * @param {?Object} options - Options.
  * @returns {Promise<String>} JS.
  */
-module.exports = async function(filePath, opts = {}) {
+// eslint-disable-next-line require-await
+module.exports = async function(filePath, options = {}) {
 
 	if (typeof filePath !== 'string') throw new Error(`'filePath' must be a string`)
-	if (typeof opts !== 'object') throw new Error(`'opts' must be undefined or an object`)
+	if (typeof options !== 'object') throw new Error(`'options' must be undefined or an object`)
 
-	opts = Object.assign({
+	options = Object.assign({
 		optimize: false
-	}, opts)
+	}, options)
 
-	return rollup(filePath, opts)
+	return rollup(filePath, options)
 
 }
 
 /**
  * Tell Rosid with which file extension it should load the file.
  * @public
- * @param {?Object} opts - Options.
+ * @param {?Object} options - Options.
  * @returns {String} File extension.
  */
-module.exports.in = function(opts) {
+module.exports.in = function(options) {
 
-	return (opts != null && opts.in != null) ? opts.in : '.js'
+	return (options != null && options.in != null) ? options.in : '.js'
 
 }
 
 /**
  * Tell Rosid with which file extension it should save the file.
  * @public
- * @param {?Object} opts - Options.
+ * @param {?Object} options - Options.
  * @returns {String} File extension.
  */
-module.exports.out = function(opts) {
+module.exports.out = function(options) {
 
-	return (opts != null && opts.out != null) ? opts.out : '.js'
+	return (options != null && options.out != null) ? options.out : '.js'
 
 }
 

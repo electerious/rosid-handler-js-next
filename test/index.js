@@ -2,24 +2,24 @@
 
 const assert = require('chai').assert
 const uuid = require('uuid').v4
-const index = require('./../src/index')
+const index = require('./../src/index.js')
 
 // Files must be in cwd so babel can load the plugins and presents
-const fsify = require('fsify')({
+const fsify = require('fsify').default({
 	persistent: false
 })
 
 describe('index()', function() {
 
-	it('should return an error when called without a filePath', async function() {
+	it('should return an error when called without a filePath', function() {
 
 		return index().then(() => {
 
 			throw new Error('Returned without error')
 
-		}, (err) => {
+		}, (error) => {
 
-			assert.strictEqual(err.message, `'filePath' must be a string`)
+			assert.strictEqual(error.message, `'filePath' must be a string`)
 
 		})
 
@@ -29,7 +29,7 @@ describe('index()', function() {
 
 		const structure = await fsify([
 			{
-				type: fsify.FILE,
+				type: 'file',
 				name: `${ uuid() }.js`,
 				contents: 'const fn = () => {}'
 			}
@@ -39,24 +39,24 @@ describe('index()', function() {
 
 			throw new Error('Returned without error')
 
-		}, (err) => {
+		}, (error) => {
 
-			assert.strictEqual(err.message, `'opts' must be undefined or an object`)
+			assert.strictEqual(error.message, `'options' must be undefined or an object`)
 
 		})
 
 	})
 
-	it('should return an error when called with a fictive filePath', async function() {
+	it('should return an error when called with a fictive filePath', function() {
 
 		return index(`${ uuid() }.js`).then(() => {
 
 			throw new Error('Returned without error')
 
-		}, (err) => {
+		}, (error) => {
 
-			assert.isNotNull(err)
-			assert.isDefined(err)
+			assert.isNotNull(error)
+			assert.isDefined(error)
 
 		})
 
@@ -66,7 +66,7 @@ describe('index()', function() {
 
 		const structure = await fsify([
 			{
-				type: fsify.FILE,
+				type: 'file',
 				name: `${ uuid() }.js`,
 				contents: '='
 			}
@@ -76,10 +76,10 @@ describe('index()', function() {
 
 			throw new Error('Returned without error')
 
-		}, (err) => {
+		}, (error) => {
 
-			assert.isNotNull(err)
-			assert.isDefined(err)
+			assert.isNotNull(error)
+			assert.isDefined(error)
 
 		})
 
@@ -89,7 +89,7 @@ describe('index()', function() {
 
 		const structure = await fsify([
 			{
-				type: fsify.FILE,
+				type: 'file',
 				name: `${ uuid() }.js`,
 				contents: 'const fn = () => {}'
 			}
@@ -105,7 +105,7 @@ describe('index()', function() {
 
 		const structure = await fsify([
 			{
-				type: fsify.FILE,
+				type: 'file',
 				name: `${ uuid() }.js`,
 				contents: 'const fn = () => {}'
 			}

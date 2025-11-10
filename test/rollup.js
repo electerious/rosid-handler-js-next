@@ -2,25 +2,25 @@
 
 const assert = require('chai').assert
 const uuid = require('uuid').v4
-const rollup = require('../src/rollup')
+const rollup = require('../src/rollup.js')
 
-const fsify = require('fsify')({
+const fsify = require('fsify').default({
 	cwd: __dirname,
 	persistent: false
 })
 
 describe('rollup()', function() {
 
-	it('should return an error when called with a fictive filePath', async function() {
+	it('should return an error when called with a fictive filePath', function() {
 
 		return rollup('test.js', {}).then(() => {
 
 			throw new Error('Returned without error')
 
-		}, (err) => {
+		}, (error) => {
 
-			assert.isNotNull(err)
-			assert.isDefined(err)
+			assert.isNotNull(error)
+			assert.isDefined(error)
 
 		})
 
@@ -30,7 +30,7 @@ describe('rollup()', function() {
 
 		const structure = await fsify([
 			{
-				type: fsify.FILE,
+				type: 'file',
 				name: `${ uuid() }.js`,
 				contents: 'window.fn = () => process.env.NODE_ENV'
 			}
@@ -46,7 +46,7 @@ describe('rollup()', function() {
 
 		const structure = await fsify([
 			{
-				type: fsify.FILE,
+				type: 'file',
 				name: `${ uuid() }.js`,
 				contents: 'window.fn = () => true'
 			}
@@ -63,7 +63,7 @@ describe('rollup()', function() {
 
 		const structure = await fsify([
 			{
-				type: fsify.FILE,
+				type: 'file',
 				name: `${ uuid() }.js`,
 				contents: 'const fn = () => true'
 			}
@@ -80,7 +80,7 @@ describe('rollup()', function() {
 
 		const structure = await fsify([
 			{
-				type: fsify.FILE,
+				type: 'file',
 				name: `${ uuid() }.js`,
 				contents: 'window.fn = () => process.env.NODE_ENV'
 			}
@@ -96,7 +96,7 @@ describe('rollup()', function() {
 
 		const structure = await fsify([
 			{
-				type: fsify.FILE,
+				type: 'file',
 				name: `${ uuid() }.js`,
 				contents: 'window.fn = () => process.env.NODE_ENV'
 			}
@@ -112,7 +112,7 @@ describe('rollup()', function() {
 
 		const structure = await fsify([
 			{
-				type: fsify.FILE,
+				type: 'file',
 				name: `${ uuid() }.js`,
 				contents: 'window.fn = () => process.env.TEST'
 			}
@@ -129,7 +129,7 @@ describe('rollup()', function() {
 
 		const structure = await fsify([
 			{
-				type: fsify.FILE,
+				type: 'file',
 				name: `${ uuid() }.js`,
 				contents: '='
 			}
@@ -139,10 +139,10 @@ describe('rollup()', function() {
 
 			throw new Error('Returned without error')
 
-		}, (err) => {
+		}, (error) => {
 
-			assert.isNotNull(err)
-			assert.isDefined(err)
+			assert.isNotNull(error)
+			assert.isDefined(error)
 
 		})
 
