@@ -6,66 +6,66 @@ const json = require('@rollup/plugin-json')
 const replace = require('@rollup/plugin-replace')
 const { babel } = require('@rollup/plugin-babel')
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
-const { terser } = require('rollup-plugin-terser')
+const terser = require('@rollup/plugin-terser')
 const nodeGlobals = require('rollup-plugin-node-globals')
 
 /**
  * Transform and bundle JS.
  * @public
  * @param {String} filePath - Path to the JS file.
- * @param {Object} opts - Options for the task.
+ * @param {Object} options - Options for the task.
  * @returns {Promise<String>} Transformed and bundled JS.
  */
-module.exports = async function(filePath, opts) {
+module.exports = async function(filePath, options) {
 
-	opts = {
+	options = {
 		replace: {},
 		babel: {},
 		rollupInput: {},
 		rollupOutput: {},
 		nodeGlobals: false,
-		...opts
+		...options
 	}
 
-	const replaceOpts = opts.optimize === true ? {
+	const replaceOptions = options.optimize === true ? {
 		'preventAssignment': true,
 		'process.env.NODE_ENV': JSON.stringify('production'),
-		...opts.replace
+		...options.replace
 	} : {
 		preventAssignment: true,
-		...opts.replace
+		...options.replace
 	}
 
-	const babelOpts = {
+	const babelOptions = {
 		babelHelpers: 'bundled',
 		presets: [ '@babel/preset-env', '@babel/preset-react' ],
 		compact: false,
 		babelrc: false,
-		...opts.babel
+		...options.babel
 	}
 
-	const rollupInputOpts = {
+	const rollupInputOptions = {
 		input: filePath,
 		plugins: [
 			json(),
 			commonjs(),
 			nodeResolve({ browser: true }),
-			replace(replaceOpts),
-			opts.nodeGlobals !== false ? nodeGlobals() : undefined,
-			opts.babel !== false ? babel(babelOpts) : undefined
+			replace(replaceOptions),
+			options.nodeGlobals !== false ? nodeGlobals() : undefined,
+			options.babel !== false ? babel(babelOptions) : undefined
 		].filter(Boolean),
-		...opts.rollupInput
+		...options.rollupInput
 	}
 
-	const rollupOutputOpts = {
+	const rollupOutputOptions = {
 		format: 'iife',
-		plugins: opts.optimize === true ? [ terser() ] : undefined,
-		sourcemap: opts.optimize === true ? false : 'inline',
-		...opts.rollupOutput
+		plugins: options.optimize === true ? [ terser() ] : undefined,
+		sourcemap: options.optimize === true ? false : 'inline',
+		...options.rollupOutput
 	}
 
-	const bundle = await rollup.rollup(rollupInputOpts)
-	const { output } = await bundle.generate(rollupOutputOpts)
+	const bundle = await rollup.rollup(rollupInputOptions)
+	const { output } = await bundle.generate(rollupOutputOptions)
 	await bundle.close()
 
 	const { code, map: sourcemap } = output[0]
