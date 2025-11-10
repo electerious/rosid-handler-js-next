@@ -1,6 +1,7 @@
 'use strict'
 
-const assert = require('chai').assert
+const { test, describe } = require('node:test')
+const assert = require('node:assert/strict')
 const uuid = require('uuid').v4
 const index = require('./../src/index.js')
 
@@ -9,23 +10,18 @@ const fsify = require('fsify').default({
 	persistent: false
 })
 
-describe('index()', function() {
+describe('index()', () => {
 
-	it('should return an error when called without a filePath', function() {
+	test('should return an error when called without a filePath', async () => {
 
-		return index().then(() => {
-
-			throw new Error('Returned without error')
-
-		}, (error) => {
-
-			assert.strictEqual(error.message, `'filePath' must be a string`)
-
-		})
+		await assert.rejects(
+			index(),
+			{ message: `'filePath' must be a string` }
+		)
 
 	})
 
-	it('should return an error when called with invalid options', async function() {
+	test('should return an error when called with invalid options', async () => {
 
 		const structure = await fsify([
 			{
@@ -35,34 +31,20 @@ describe('index()', function() {
 			}
 		])
 
-		return index(structure[0].name, '').then(() => {
-
-			throw new Error('Returned without error')
-
-		}, (error) => {
-
-			assert.strictEqual(error.message, `'options' must be undefined or an object`)
-
-		})
+		await assert.rejects(
+			index(structure[0].name, ''),
+			{ message: `'options' must be undefined or an object` }
+		)
 
 	})
 
-	it('should return an error when called with a fictive filePath', function() {
+	test('should return an error when called with a fictive filePath', async () => {
 
-		return index(`${ uuid() }.js`).then(() => {
-
-			throw new Error('Returned without error')
-
-		}, (error) => {
-
-			assert.isNotNull(error)
-			assert.isDefined(error)
-
-		})
+		await assert.rejects(index(`${ uuid() }.js`))
 
 	})
 
-	it('should return an error when called with an invalid JS file', async function() {
+	test('should return an error when called with an invalid JS file', async () => {
 
 		const structure = await fsify([
 			{
@@ -72,20 +54,11 @@ describe('index()', function() {
 			}
 		])
 
-		return index(structure[0].name).then(() => {
-
-			throw new Error('Returned without error')
-
-		}, (error) => {
-
-			assert.isNotNull(error)
-			assert.isDefined(error)
-
-		})
+		await assert.rejects(index(structure[0].name))
 
 	})
 
-	it('should load JS and transform it to JS', async function() {
+	test('should load JS and transform it to JS', async () => {
 
 		const structure = await fsify([
 			{
@@ -97,11 +70,11 @@ describe('index()', function() {
 
 		const result = await index(structure[0].name)
 
-		assert.isString(result)
+		assert.strictEqual(typeof result, 'string')
 
 	})
 
-	it('should load JS and transform it to optimized JS when optimization enabled', async function() {
+	test('should load JS and transform it to optimized JS when optimization enabled', async () => {
 
 		const structure = await fsify([
 			{
@@ -113,31 +86,31 @@ describe('index()', function() {
 
 		const result = await index(structure[0].name, { optimize: true })
 
-		assert.isString(result)
+		assert.strictEqual(typeof result, 'string')
 
 	})
 
-	describe('.in()', function() {
+	describe('.in()', () => {
 
-		it('should be a function', function() {
+		test('should be a function', () => {
 
-			assert.isFunction(index.in)
+			assert.strictEqual(typeof index.in, 'function')
 
 		})
 
-		it('should return a default extension', function() {
+		test('should return a default extension', () => {
 
 			assert.strictEqual(index.in(), '.js')
 
 		})
 
-		it('should return a default extension when called with invalid options', function() {
+		test('should return a default extension when called with invalid options', () => {
 
 			assert.strictEqual(index.in(''), '.js')
 
 		})
 
-		it('should return a custom extension when called with options', function() {
+		test('should return a custom extension when called with options', () => {
 
 			assert.strictEqual(index.in({ in: '.jsx' }), '.jsx')
 
@@ -145,27 +118,27 @@ describe('index()', function() {
 
 	})
 
-	describe('.out()', function() {
+	describe('.out()', () => {
 
-		it('should be a function', function() {
+		test('should be a function', () => {
 
-			assert.isFunction(index.in)
+			assert.strictEqual(typeof index.in, 'function')
 
 		})
 
-		it('should return a default extension', function() {
+		test('should return a default extension', () => {
 
 			assert.strictEqual(index.out(), '.js')
 
 		})
 
-		it('should return a default extension when called with invalid options', function() {
+		test('should return a default extension when called with invalid options', () => {
 
 			assert.strictEqual(index.out(''), '.js')
 
 		})
 
-		it('should return a custom extension when called with options', function() {
+		test('should return a custom extension when called with options', () => {
 
 			assert.strictEqual(index.out({ out: '.jsx' }), '.jsx')
 
@@ -173,11 +146,11 @@ describe('index()', function() {
 
 	})
 
-	describe('.cache', function() {
+	describe('.cache', () => {
 
-		it('should be an array', function() {
+		test('should be an array', () => {
 
-			assert.isArray(index.cache)
+			assert.ok(Array.isArray(index.cache))
 
 		})
 
