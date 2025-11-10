@@ -9,7 +9,6 @@ const rollup = require('./rollup.js')
  * @param {?Object} options - Options.
  * @returns {Promise<String>} JS.
  */
-// eslint-disable-next-line require-await
 module.exports = async function(filePath, options = {}) {
 
 	if (typeof filePath !== 'string') throw new Error(`'filePath' must be a string`)
