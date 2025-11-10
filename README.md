@@ -27,9 +27,9 @@ Add the following object to your `rosidfile.json`, `rosidfile.js` or [routes arr
 
 ```json
 {
-  "name"    : "JS",
-  "path"    : "[^_]*.js",
-  "handler" : "rosid-handler-js-next"
+  "name": "JS",
+  "path": "[^_]*.js",
+  "handler": "rosid-handler-js-next"
 }
 ```
 
@@ -40,20 +40,23 @@ export default () => 'Hello World'
 
 ```js
 // main.js (output)
-"use strict"
-Object.defineProperty(exports,"__esModule",{value:!0}),exports["default"]=function(){return"Hello World"}
+'use strict'
+;(Object.defineProperty(exports, '__esModule', { value: !0 }),
+  (exports['default'] = function () {
+    return 'Hello World'
+  }))
 ```
 
 ## Parameters
 
 - `filePath` `{String}` Absolute path to file.
 - `opts` `{?Object}` Options.
-	- `optimize` `{?Boolean}` - Optimize output. Defaults to `false`.
-	- `replace` `{?Object}` - Variables for [@rollup/plugin-replace](https://github.com/rollup/plugins/tree/master/packages/replace). Defaults to an object with `process.env.NODE_ENV` set to `production` when `optimize` is enabled.
-	- `babel` `{?Object}` - Variables for [@rollup/plugin-babel](https://github.com/rollup/plugins/tree/master/packages/babel). Defaults to an object with the presets [env](http://babeljs.io/docs/plugins/preset-env/) and [react](http://babeljs.io/docs/plugins/preset-react/).
-	- `nodeGlobals` `{?Boolean}` - Enable to disable [rollup-plugin-node-globals](https://github.com/calvinmetcalf/rollup-plugin-node-globals). Defaults to `false`.
-	- `rollupInput` `{?Object}` - Input variables for rollup.js.
-	- `rollupOutput` `{?Object}` - Output variables for rollup.js.
+  - `optimize` `{?Boolean}` - Optimize output. Defaults to `false`.
+  - `replace` `{?Object}` - Variables for [@rollup/plugin-replace](https://github.com/rollup/plugins/tree/master/packages/replace). Defaults to an object with `process.env.NODE_ENV` set to `production` when `optimize` is enabled.
+  - `babel` `{?Object}` - Variables for [@rollup/plugin-babel](https://github.com/rollup/plugins/tree/master/packages/babel). Defaults to an object with the presets [env](http://babeljs.io/docs/plugins/preset-env/) and [react](http://babeljs.io/docs/plugins/preset-react/).
+  - `nodeGlobals` `{?Boolean}` - Enable to disable [rollup-plugin-node-globals](https://github.com/calvinmetcalf/rollup-plugin-node-globals). Defaults to `false`.
+  - `rollupInput` `{?Object}` - Input variables for rollup.js.
+  - `rollupOutput` `{?Object}` - Output variables for rollup.js.
 
 ## Returns
 

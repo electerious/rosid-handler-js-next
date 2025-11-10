@@ -1,11 +1,7 @@
 {
   "name": "rosid-handler-js-next",
   "version": "1.0.1",
-  "authors": [
-    "Tobias Reich <tobias@electerious.com>"
-  ],
   "description": "Load, transform, bundle and compress modern JS",
-  "main": "src/index.js",
   "keywords": [
     "rosid",
     "handler",
@@ -16,17 +12,22 @@
     "rollup",
     "terser"
   ],
-  "license": "MIT",
   "homepage": "https://github.com/electerious/rosid-handler-js-next",
   "repository": {
     "type": "git",
     "url": "https://github.com/electerious/rosid-handler-js-next.git"
   },
+  "license": "MIT",
+  "main": "src/index.js",
   "files": [
     "src"
   ],
   "scripts": {
-    "test": "node --test"
+    "eslint": "eslint \"**/*.js\"",
+    "format": "npm run eslint -- --fix && npm run prettier -- --write",
+    "lint": "npm run eslint && npm run prettier -- --check",
+    "prettier": "prettier --ignore-path .gitignore \"**/*.{js,json,md,yml}\"",
+    "test": "npm run lint && node --test"
   },
   "dependencies": {
     "@babel/core": "^7.28.5",
@@ -42,6 +43,13 @@
     "rollup-plugin-node-globals": "^1.4.0"
   },
   "devDependencies": {
-    "fsify": "^6.0.1"
-  }
+    "@electerious/eslint-config": "^4.1.0",
+    "@electerious/prettier-config": "^3.0.0",
+    "eslint": "^8.57.1",
+    "fsify": "^6.0.1",
+    "prettier": "^3.6.2"
+  },
+  "authors": [
+    "Tobias Reich <tobias@electerious.com>"
+  ]
 }

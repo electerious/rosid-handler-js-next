@@ -16,65 +16,66 @@ const nodeGlobals = require('rollup-plugin-node-globals')
  * @param {Object} options - Options for the task.
  * @returns {Promise<String>} Transformed and bundled JS.
  */
-module.exports = async function(filePath, options) {
+module.exports = async function (filePath, options) {
+  options = {
+    replace: {},
+    babel: {},
+    rollupInput: {},
+    rollupOutput: {},
+    nodeGlobals: false,
+    ...options,
+  }
 
-	options = {
-		replace: {},
-		babel: {},
-		rollupInput: {},
-		rollupOutput: {},
-		nodeGlobals: false,
-		...options
-	}
+  const replaceOptions =
+    options.optimize === true
+      ? {
+          'preventAssignment': true,
+          'process.env.NODE_ENV': JSON.stringify('production'),
+          ...options.replace,
+        }
+      : {
+          preventAssignment: true,
+          ...options.replace,
+        }
 
-	const replaceOptions = options.optimize === true ? {
-		'preventAssignment': true,
-		'process.env.NODE_ENV': JSON.stringify('production'),
-		...options.replace
-	} : {
-		preventAssignment: true,
-		...options.replace
-	}
+  const babelOptions = {
+    babelHelpers: 'bundled',
+    presets: ['@babel/preset-env', '@babel/preset-react'],
+    compact: false,
+    babelrc: false,
+    ...options.babel,
+  }
 
-	const babelOptions = {
-		babelHelpers: 'bundled',
-		presets: [ '@babel/preset-env', '@babel/preset-react' ],
-		compact: false,
-		babelrc: false,
-		...options.babel
-	}
+  const rollupInputOptions = {
+    input: filePath,
+    plugins: [
+      json(),
+      commonjs(),
+      nodeResolve({ browser: true }),
+      replace(replaceOptions),
+      options.nodeGlobals !== false ? nodeGlobals() : undefined,
+      options.babel !== false ? babel(babelOptions) : undefined,
+    ].filter(Boolean),
+    ...options.rollupInput,
+  }
 
-	const rollupInputOptions = {
-		input: filePath,
-		plugins: [
-			json(),
-			commonjs(),
-			nodeResolve({ browser: true }),
-			replace(replaceOptions),
-			options.nodeGlobals !== false ? nodeGlobals() : undefined,
-			options.babel !== false ? babel(babelOptions) : undefined
-		].filter(Boolean),
-		...options.rollupInput
-	}
+  const rollupOutputOptions = {
+    format: 'iife',
+    plugins: options.optimize === true ? [terser()] : undefined,
+    sourcemap: options.optimize === true ? false : 'inline',
+    ...options.rollupOutput,
+  }
 
-	const rollupOutputOptions = {
-		format: 'iife',
-		plugins: options.optimize === true ? [ terser() ] : undefined,
-		sourcemap: options.optimize === true ? false : 'inline',
-		...options.rollupOutput
-	}
+  const bundle = await rollup.rollup(rollupInputOptions)
+  const { output } = await bundle.generate(rollupOutputOptions)
+  await bundle.close()
 
-	const bundle = await rollup.rollup(rollupInputOptions)
-	const { output } = await bundle.generate(rollupOutputOptions)
-	await bundle.close()
+  const { code, map: sourcemap } = output[0]
+  const hasSourcemap = sourcemap != null
 
-	const { code, map: sourcemap } = output[0]
-	const hasSourcemap = sourcemap != null
+  if (hasSourcemap === true) {
+    return `${code}\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,${Buffer.from(sourcemap.toString()).toString('base64')}`
+  }
 
-	if (hasSourcemap === true) {
-		return `${ code }\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,${ Buffer.from(sourcemap.toString()).toString('base64') }`
-	}
-
-	return code
-
+  return code
 }
