@@ -1,5 +1,3 @@
-'use strict'
-
 const rollup = require('rollup')
 const commonjs = require('@rollup/plugin-commonjs')
 const json = require('@rollup/plugin-json')
@@ -11,10 +9,11 @@ const nodeGlobals = require('rollup-plugin-node-globals')
 
 /**
  * Transform and bundle JS.
+ *
  * @public
- * @param {String} filePath - Path to the JS file.
- * @param {Object} options - Options for the task.
- * @returns {Promise<String>} Transformed and bundled JS.
+ * @param {string} filePath - Path to the JS file.
+ * @param {object} options - Options for the task.
+ * @returns {Promise<string>} Transformed and bundled JS.
  */
 module.exports = async function (filePath, options) {
   options = {
@@ -53,8 +52,8 @@ module.exports = async function (filePath, options) {
       commonjs(),
       nodeResolve({ browser: true }),
       replace(replaceOptions),
-      options.nodeGlobals !== false ? nodeGlobals() : undefined,
-      options.babel !== false ? babel(babelOptions) : undefined,
+      options.nodeGlobals === false ? undefined : nodeGlobals(),
+      options.babel === false ? undefined : babel(babelOptions),
     ].filter(Boolean),
     ...options.rollupInput,
   }

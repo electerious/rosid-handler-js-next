@@ -1,5 +1,3 @@
-'use strict'
-
 const { test, describe } = require('node:test')
 const assert = require('node:assert/strict')
 const { randomUUID } = require('node:crypto')
@@ -54,7 +52,7 @@ describe('index()', () => {
 
     const result = await index(structure[0].name)
 
-    assert.strictEqual(typeof result, 'string')
+    assert.equal(typeof result, 'string')
   })
 
   test('should load JS and transform it to optimized JS when optimization enabled', async () => {
@@ -68,42 +66,42 @@ describe('index()', () => {
 
     const result = await index(structure[0].name, { optimize: true })
 
-    assert.strictEqual(typeof result, 'string')
+    assert.equal(typeof result, 'string')
   })
 
   describe('.in()', () => {
     test('should be a function', () => {
-      assert.strictEqual(typeof index.in, 'function')
+      assert.equal(typeof index.in, 'function')
     })
 
     test('should return a default extension', () => {
-      assert.strictEqual(index.in(), '.js')
+      assert.equal(index.in(), '.js')
     })
 
     test('should return a default extension when called with invalid options', () => {
-      assert.strictEqual(index.in(''), '.js')
+      assert.equal(index.in(''), '.js')
     })
 
     test('should return a custom extension when called with options', () => {
-      assert.strictEqual(index.in({ in: '.jsx' }), '.jsx')
+      assert.equal(index.in({ in: '.jsx' }), '.jsx')
     })
   })
 
   describe('.out()', () => {
     test('should be a function', () => {
-      assert.strictEqual(typeof index.in, 'function')
+      assert.equal(typeof index.in, 'function')
     })
 
     test('should return a default extension', () => {
-      assert.strictEqual(index.out(), '.js')
+      assert.equal(index.out(), '.js')
     })
 
     test('should return a default extension when called with invalid options', () => {
-      assert.strictEqual(index.out(''), '.js')
+      assert.equal(index.out(''), '.js')
     })
 
     test('should return a custom extension when called with options', () => {
-      assert.strictEqual(index.out({ out: '.jsx' }), '.jsx')
+      assert.equal(index.out({ out: '.jsx' }), '.jsx')
     })
   })
 

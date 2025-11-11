@@ -1,5 +1,3 @@
-'use strict'
-
 const { test, describe } = require('node:test')
 const assert = require('node:assert/strict')
 const { randomUUID } = require('node:crypto')
@@ -26,7 +24,7 @@ describe('rollup()', () => {
 
     const result = await rollup(structure[0].name, {})
 
-    assert.strictEqual(typeof result, 'string')
+    assert.equal(typeof result, 'string')
   })
 
   test('should return untranspiled JS when called with a valid JS file and custom babel options', async () => {

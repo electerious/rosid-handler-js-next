@@ -1,6 +1,6 @@
 # rosid-handler-js-next
 
-[![Travis Build Status](https://travis-ci.org/electerious/rosid-handler-js-next.svg?branch=master)](https://travis-ci.org/electerious/rosid-handler-js-next) [![Coverage Status](https://coveralls.io/repos/github/electerious/rosid-handler-js-next/badge.svg?branch=master)](https://coveralls.io/github/electerious/rosid-handler-js-next?branch=master) [![Dependencies](https://david-dm.org/electerious/rosid-handler-js-next.svg)](https://david-dm.org/electerious/rosid-handler-js-next#info=dependencies)
+[![Test](https://github.com/electerious/rosid-handler-js-next/actions/workflows/test.yml/badge.svg)](https://github.com/electerious/rosid-handler-js-next/actions/workflows/test.yml)
 
 A function that loads a JS file and transforms, bundles and compresses its content.
 
@@ -49,15 +49,15 @@ export default () => 'Hello World'
 
 ## Parameters
 
-- `filePath` `{String}` Absolute path to file.
-- `options` `{?Object}` Options.
-  - `optimize` `{?Boolean}` - Optimize output. Defaults to `false`.
-  - `replace` `{?Object}` - Variables for [@rollup/plugin-replace](https://github.com/rollup/plugins/tree/master/packages/replace). Defaults to an object with `process.env.NODE_ENV` set to `production` when `optimize` is enabled.
-  - `babel` `{?Object}` - Variables for [@rollup/plugin-babel](https://github.com/rollup/plugins/tree/master/packages/babel). Defaults to an object with the presets [env](http://babeljs.io/docs/plugins/preset-env/) and [react](http://babeljs.io/docs/plugins/preset-react/).
-  - `nodeGlobals` `{?Boolean}` - Enable to disable [rollup-plugin-node-globals](https://github.com/calvinmetcalf/rollup-plugin-node-globals). Defaults to `false`.
-  - `rollupInput` `{?Object}` - Input variables for rollup.js.
-  - `rollupOutput` `{?Object}` - Output variables for rollup.js.
+- `filePath` `{string}` Absolute path to file.
+- `options` `{?object}` Options.
+  - `optimize` `{?boolean}` - Optimize output. Defaults to `false`.
+  - `replace` `{?object}` - Variables for [@rollup/plugin-replace](https://github.com/rollup/plugins/tree/master/packages/replace). Defaults to an object with `process.env.NODE_ENV` set to `production` when `optimize` is enabled.
+  - `babel` `{?object}` - Variables for [@rollup/plugin-babel](https://github.com/rollup/plugins/tree/master/packages/babel). Defaults to an object with the presets [env](http://babeljs.io/docs/plugins/preset-env/) and [react](http://babeljs.io/docs/plugins/preset-react/).
+  - `nodeGlobals` `{?boolean}` - Enable to disable [rollup-plugin-node-globals](https://github.com/calvinmetcalf/rollup-plugin-node-globals). Defaults to `false`.
+  - `rollupInput` `{?object}` - Input variables for rollup.js.
+  - `rollupOutput` `{?object}` - Output variables for rollup.js.
 
 ## Returns
 
-- `{Promise<String|Buffer>}` The transformed file content.
+- `{Promise<string>}` The transformed file content.
