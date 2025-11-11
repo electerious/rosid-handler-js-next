@@ -50,7 +50,7 @@ export default () => 'Hello World'
 ## Parameters
 
 - `filePath` `{String}` Absolute path to file.
-- `opts` `{?Object}` Options.
+- `options` `{?Object}` Options.
   - `optimize` `{?Boolean}` - Optimize output. Defaults to `false`.
   - `replace` `{?Object}` - Variables for [@rollup/plugin-replace](https://github.com/rollup/plugins/tree/master/packages/replace). Defaults to an object with `process.env.NODE_ENV` set to `production` when `optimize` is enabled.
   - `babel` `{?Object}` - Variables for [@rollup/plugin-babel](https://github.com/rollup/plugins/tree/master/packages/babel). Defaults to an object with the presets [env](http://babeljs.io/docs/plugins/preset-env/) and [react](http://babeljs.io/docs/plugins/preset-react/).
