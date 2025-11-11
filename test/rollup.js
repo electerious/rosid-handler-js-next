@@ -2,133 +2,115 @@
 
 const { test, describe } = require('node:test')
 const assert = require('node:assert/strict')
-const {randomUUID} = require('node:crypto')
+const { randomUUID } = require('node:crypto')
 const rollup = require('../src/rollup.js')
 
 const fsify = require('fsify').default({
-	cwd: __dirname,
-	persistent: false
+  cwd: __dirname,
+  persistent: false,
 })
 
 describe('rollup()', () => {
+  test('should return an error when called with a fictive filePath', async () => {
+    await assert.rejects(rollup('test.js', {}))
+  })
 
-	test('should return an error when called with a fictive filePath', async () => {
+  test('should return JS when called with a valid JS file', async () => {
+    const structure = await fsify([
+      {
+        type: 'file',
+        name: `${randomUUID()}.js`,
+        contents: 'window.fn = () => process.env.NODE_ENV',
+      },
+    ])
 
-		await assert.rejects(rollup('test.js', {}))
+    const result = await rollup(structure[0].name, {})
 
-	})
+    assert.strictEqual(typeof result, 'string')
+  })
 
-	test('should return JS when called with a valid JS file', async () => {
+  test('should return untranspiled JS when called with a valid JS file and custom babel options', async () => {
+    const structure = await fsify([
+      {
+        type: 'file',
+        name: `${randomUUID()}.js`,
+        contents: 'window.fn = () => true',
+      },
+    ])
 
-		const structure = await fsify([
-			{
-				type: 'file',
-				name: `${randomUUID()}.js`,
-				contents: 'window.fn = () => process.env.NODE_ENV'
-			}
-		])
+    const babel = { presets: [] }
+    const result = await rollup(structure[0].name, { babel })
 
-		const result = await rollup(structure[0].name, {})
+    assert.ok(result.includes(structure[0].contents))
+  })
 
-		assert.strictEqual(typeof result, 'string')
+  test('should return JS without source maps when called with a valid JS file and custom rollup options', async () => {
+    const structure = await fsify([
+      {
+        type: 'file',
+        name: `${randomUUID()}.js`,
+        contents: 'window.fn = () => true',
+      },
+    ])
 
-	})
+    const rollupOutput = { sourcemap: false }
+    const result = await rollup(structure[0].name, { rollupOutput })
 
-	test('should return untranspiled JS when called with a valid JS file and custom babel options', async () => {
+    assert.ok(!result.includes('sourceMappingURL'))
+  })
 
-		const structure = await fsify([
-			{
-				type: 'file',
-				name: `${randomUUID()}.js`,
-				contents: 'window.fn = () => true'
-			}
-		])
+  test('should return JS and replace process.env.NODE_ENV when optimize is true', async () => {
+    const structure = await fsify([
+      {
+        type: 'file',
+        name: `${randomUUID()}.js`,
+        contents: 'window.fn = () => process.env.NODE_ENV',
+      },
+    ])
 
-		const babel = { presets: [] }
-		const result = await rollup(structure[0].name, { babel })
+    const result = await rollup(structure[0].name, { optimize: true })
 
-		assert.ok(result.includes(structure[0].contents))
+    assert.ok(result.includes('production'))
+  })
 
-	})
+  test('should return JS and not replace process.env.NODE_ENV when optimize is false', async () => {
+    const structure = await fsify([
+      {
+        type: 'file',
+        name: `${randomUUID()}.js`,
+        contents: 'window.fn = () => process.env.NODE_ENV',
+      },
+    ])
 
-	test('should return JS without source maps when called with a valid JS file and custom rollup options', async () => {
+    const result = await rollup(structure[0].name, { optimize: false })
 
-		const structure = await fsify([
-			{
-				type: 'file',
-				name: `${randomUUID()}.js`,
-				contents: 'window.fn = () => true'
-			}
-		])
+    assert.ok(result.includes('process.env.NODE_ENV'))
+  })
 
-		const rollupOutput = { sourcemap: false }
-		const result = await rollup(structure[0].name, { rollupOutput })
+  test('should return JS and replace process.env.TEST when called with a custom replace object', async () => {
+    const structure = await fsify([
+      {
+        type: 'file',
+        name: `${randomUUID()}.js`,
+        contents: 'window.fn = () => process.env.TEST',
+      },
+    ])
 
-		assert.ok(!result.includes('sourceMappingURL'))
+    const replace = { 'process.env.TEST': JSON.stringify(randomUUID()) }
+    const result = await rollup(structure[0].name, { replace })
 
-	})
+    assert.ok(result.includes(replace['process.env.TEST']))
+  })
 
-	test('should return JS and replace process.env.NODE_ENV when optimize is true', async () => {
+  test('should return an error when called with an invalid JS file', async () => {
+    const structure = await fsify([
+      {
+        type: 'file',
+        name: `${randomUUID()}.js`,
+        contents: '=',
+      },
+    ])
 
-		const structure = await fsify([
-			{
-				type: 'file',
-				name: `${randomUUID()}.js`,
-				contents: 'window.fn = () => process.env.NODE_ENV'
-			}
-		])
-
-		const result = await rollup(structure[0].name, { optimize: true })
-
-		assert.ok(result.includes('production'))
-
-	})
-
-	test('should return JS and not replace process.env.NODE_ENV when optimize is false', async () => {
-
-		const structure = await fsify([
-			{
-				type: 'file',
-				name: `${randomUUID()}.js`,
-				contents: 'window.fn = () => process.env.NODE_ENV'
-			}
-		])
-
-		const result = await rollup(structure[0].name, { optimize: false })
-
-		assert.ok(result.includes('process.env.NODE_ENV'))
-
-	})
-
-	test('should return JS and replace process.env.TEST when called with a custom replace object', async () => {
-
-		const structure = await fsify([
-			{
-				type: 'file',
-				name: `${randomUUID()}.js`,
-				contents: 'window.fn = () => process.env.TEST'
-			}
-		])
-
-		const replace = { 'process.env.TEST': JSON.stringify(randomUUID()) }
-		const result = await rollup(structure[0].name, { replace })
-
-		assert.ok(result.includes(replace['process.env.TEST']))
-
-	})
-
-	test('should return an error when called with an invalid JS file', async () => {
-
-		const structure = await fsify([
-			{
-				type: 'file',
-				name: `${randomUUID()}.js`,
-				contents: '='
-			}
-		])
-
-		await assert.rejects(rollup(structure[0].name, {}))
-
-	})
-
+    await assert.rejects(rollup(structure[0].name, {}))
+  })
 })
