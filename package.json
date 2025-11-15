@@ -1,6 +1,6 @@
 {
   "name": "rosid-handler-js-next",
-  "version": "1.0.1",
+  "version": "2.0.0-0",
   "description": "Load, transform, bundle and compress modern JS",
   "keywords": [
     "rosid",
