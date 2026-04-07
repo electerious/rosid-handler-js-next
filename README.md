@@ -40,11 +40,15 @@ export default () => 'Hello World'
 
 ```js
 // main.js (output)
-'use strict'
-;(Object.defineProperty(exports, '__esModule', { value: !0 }),
-  (exports['default'] = function () {
+;(function () {
+  'use strict'
+
+  var fn = function () {
     return 'Hello World'
-  }))
+  }
+
+  return fn
+})()
 ```
 
 ## Parameters
@@ -54,7 +58,7 @@ export default () => 'Hello World'
   - `optimize` `{?boolean}` - Optimize output. Defaults to `false`.
   - `replace` `{?object}` - Variables for [@rollup/plugin-replace](https://github.com/rollup/plugins/tree/master/packages/replace). Defaults to an object with `process.env.NODE_ENV` set to `production` when `optimize` is enabled.
   - `babel` `{?object}` - Variables for [@rollup/plugin-babel](https://github.com/rollup/plugins/tree/master/packages/babel). Defaults to an object with the presets [env](http://babeljs.io/docs/plugins/preset-env/) and [react](http://babeljs.io/docs/plugins/preset-react/).
-  - `nodeGlobals` `{?boolean}` - Enable to disable [rollup-plugin-node-globals](https://github.com/calvinmetcalf/rollup-plugin-node-globals). Defaults to `false`.
+  - `nodeGlobals` `{?boolean}` - Enable [rollup-plugin-node-globals](https://github.com/calvinmetcalf/rollup-plugin-node-globals). Defaults to `false`.
   - `rollupInput` `{?object}` - Input variables for rollup.js.
   - `rollupOutput` `{?object}` - Output variables for rollup.js.
 
