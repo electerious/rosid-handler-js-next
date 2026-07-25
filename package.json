@@ -15,7 +15,7 @@
   "homepage": "https://github.com/electerious/rosid-handler-js-next",
   "repository": {
     "type": "git",
-    "url": "https://github.com/electerious/rosid-handler-js-next.git"
+    "url": "git+https://github.com/electerious/rosid-handler-js-next.git"
   },
   "license": "MIT",
   "main": "src/index.js",
