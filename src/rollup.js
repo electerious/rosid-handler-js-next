@@ -72,7 +72,7 @@ module.exports = async function (filePath, options) {
   const { code, map: sourcemap } = output[0]
   const hasSourcemap = sourcemap != null
 
-  if (hasSourcemap === true) {
+  if (hasSourcemap) {
     return `${code}\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,${Buffer.from(sourcemap.toString()).toString('base64')}`
   }
 
